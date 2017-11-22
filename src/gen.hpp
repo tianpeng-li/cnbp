@@ -14,18 +14,24 @@ public:
 		init();
 	}
 
-	const map<int, set<string>> days() const { return day; };
-	const map<int, set<string>> monthes() const { return month; };
-	const map<int, set<string>> years() const { return year; };
+	const priseed days() const { return day; };
+	const priseed monthes() const { return month; };
+	const priseed years() const { return year; };
 
-	map<int, set<string>> monthDays() {
+	priseed monthDays() {
+		std::vector<priseed> tomerge{month, day};
+		return cross(tomerge);
+	}
 
+	priseed yearMonthDay() {
+		std::vector<priseed> tomerge{ year, month, day };
+		return cross(tomerge);
 	}
 
 private:
-	map<int, set<string>> day;
-	map<int, set<string>> month;
-	map<int, set<string>> year;
+	priseed day;
+	priseed month;
+	priseed year;
 
 	void init() {
 		dayInit();
@@ -46,7 +52,8 @@ private:
 	}
 
 	//[]
-	void formatTime(int start, int end, map<int, set<string>>& dest,
+	//Note: pri should > 0
+	void formatTime(int start, int end, priseed& dest,
 		PriType priority = Equal, int width = 2) {
 		stringstream ss;
 		string buf;
@@ -55,23 +62,29 @@ private:
 			ss.fill('0');
 			ss << i;
 			ss >> buf;
+			int pri = 1;
 			switch (priority)
 			{
 			case Equal:
-				dest[0].insert(buf);
+				pri = 1;
 				break;
 			case Asc:
-				dest[i].insert(buf);
+				pri = i;
 				break;
 			case Desc:
-				dest[end - i].insert(buf);
+				pri = end - i;
 				break;
 			case Tria:
-				dest[abs(i - (end + start) / 2)].insert(buf);
+				pri = abs(i - (end + start) / 2);
 				break;
 			default:
+				pri = 1;
 				break;
 			}
+			if (pri < 1) {
+				pri = 1;
+			}
+			dest[pri].insert(buf);
 			ss.clear();
 		}
 	}
