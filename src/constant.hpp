@@ -10,15 +10,18 @@ namespace cnbp {
 	class Constant {
 	public:
 		Constant() {
-			initCharPri();
+			charPriInit();
 		}
 
-		const priseed & getCharPri() const { return cPri; };
+		const priseed & getChar() const { return cPri; };
+		const priseed & getSpChar() const { return spcPri; };
+
 
 	private:
 		priseed cPri;
+		priseed spcPri;
 
-		void initCharPri() {
+		void charPriInit() {
 			set<string> nonPri;
 			for (char c = 'a'; c <= 'z'; c++) {
 				string s;
@@ -32,6 +35,11 @@ namespace cnbp {
 			for_each(cPri[9].begin(), cPri[9].end(),
 				[&nonPri](const string& str) {nonPri.erase(str); });
 			cPri[1] = nonPri;
+		}
+
+		void spcInit() {
+			spcPri[3] = {"@", "."};
+			spcPri[2] = {"_", "-"};
 		}
 
 	};

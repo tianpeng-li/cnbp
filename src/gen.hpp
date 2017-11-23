@@ -38,6 +38,7 @@ namespace cnbp {
 		priseed month;
 		priseed year;
 		priseed name;
+		priseed spc;
 		Constant constant;
 
 		void init() {
@@ -45,6 +46,7 @@ namespace cnbp {
 			monthInit();
 			yearInit();
 			nameInit();
+			spcInit();
 			
 		}
 
@@ -61,7 +63,23 @@ namespace cnbp {
 		}
 
 		void nameInit() {
-			name = constant.getCharPri();
+			priseed candidate = constant.getChar();
+			vector<priseed> three_char = { candidate, candidate, candidate };
+			name = cross(three_char);
+			vector<priseed> two_char = {candidate, candidate};
+			priseed two_char_name = cross(two_char);
+			for_each(two_char_name.begin(), two_char_name.end(),
+				[this](auto & kv) {
+				int pri = kv.first;
+				set<string> & old = name[pri];
+				for (auto & v : kv.second) {
+					old.insert(v);
+				}
+			});
+		}
+
+		void spcInit() {
+			spc = constant.getSpChar();
 		}
 
 		//[]
