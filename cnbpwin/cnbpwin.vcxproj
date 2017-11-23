@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\common.hpp" />
     <ClInclude Include="..\src\config.hpp" />
+    <ClInclude Include="..\src\constant.hpp" />
     <ClInclude Include="..\src\gen.hpp" />
     <ClInclude Include="..\src\help.hpp" />
   </ItemGroup>

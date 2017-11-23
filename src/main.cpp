@@ -5,9 +5,12 @@
 #include <sstream>
 
 using namespace std;
+using namespace cnbp;
 int main() {
 	BirthDay b;
-	priseed rst = b.yearMonthDay();
+
+	const priseed & rst = b.names();
+	//priseed rst = b.yearMonthDay();
 	
 	return 0;
 

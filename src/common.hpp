@@ -5,6 +5,10 @@
 #include <vector>
 //#include <queue>
 
+namespace cnbp {
+
+	using namespace std;
+
 enum PriType {
 	Equal,
 	Asc,
@@ -35,4 +39,5 @@ priseed cross(const std::vector<priseed> & seeds) {
 		q = nq;
 	}
 	return q;
+}
 }
