@@ -15,7 +15,15 @@ namespace cnbp {
 	public:
 
 		BirthDay() {
-			init();
+		}
+
+		void init() {
+			dayInit();
+			monthInit();
+			yearInit();
+			nameInit();
+			spcInit();
+
 		}
 
 		const priseed & days() const { return day; };
@@ -41,14 +49,6 @@ namespace cnbp {
 		priseed spc;
 		Constant constant;
 
-		void init() {
-			dayInit();
-			monthInit();
-			yearInit();
-			nameInit();
-			spcInit();
-			
-		}
 
 		void dayInit() {
 			formatTime(1, 31, day);
@@ -65,17 +65,24 @@ namespace cnbp {
 		void nameInit() {
 			priseed candidate = constant.getChar();
 			vector<priseed> three_char = { candidate, candidate, candidate };
-			name = cross(three_char);
+			priseed three_char_name = cross(three_char);
 			vector<priseed> two_char = {candidate, candidate};
 			priseed two_char_name = cross(two_char);
-			for_each(two_char_name.begin(), two_char_name.end(),
-				[this](auto & kv) {
-				int pri = kv.first;
-				set<string> & old = name[pri];
+			for_each(two_char_name.begin(), two_char_name.end(), [&](auto & kv) {
+				set<string> & old = three_char_name[kv.first];
+				for (auto & v : kv.second) { old.insert(v); };
+			});
+			for_each(three_char_name.begin(), three_char_name.end(), [this](auto &kv) {
+				set<string> & old = name[kv.first];
+				set<string> & old_rated = name[kv.first * 1 / 2 + 1];
 				for (auto & v : kv.second) {
 					old.insert(v);
-				}
+					string s = v;
+					s[0] = toUpper(s[0]);
+					old_rated.insert(s);
+				};
 			});
+			
 		}
 
 		void spcInit() {
