@@ -7,9 +7,8 @@
 using namespace std;
 using namespace cnbp;
 int main() {
-	BirthDay b;
 
-	cout << 'A' - 'a' << endl;
+	BirthDay b;
 
 	b.init();
 	const priseed & rst = b.names();

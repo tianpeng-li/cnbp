@@ -18,6 +18,7 @@ namespace cnbp {
 		}
 
 		void init() {
+			constant.init();
 			dayInit();
 			monthInit();
 			yearInit();
@@ -30,6 +31,10 @@ namespace cnbp {
 		const priseed & monthes() const { return month; };
 		const priseed & years() const { return year; };
 		const priseed & names() const { return name; };
+
+		//priseed nameBirth() {
+		//	
+		//}
 
 		priseed monthDays() {
 			std::vector<priseed> tomerge{ month, day };
@@ -64,11 +69,20 @@ namespace cnbp {
 
 		void nameInit() {
 			priseed candidate = constant.getChar();
+			priseed hanzi = constant.getHanzi();
 			vector<priseed> three_char = { candidate, candidate, candidate };
 			priseed three_char_name = cross(three_char);
 			vector<priseed> two_char = {candidate, candidate};
 			priseed two_char_name = cross(two_char);
+			for_each(candidate.begin(), candidate.end(), [&](auto & kv) {
+				set<string> & old = three_char_name[kv.first];
+				for (auto & v : kv.second) { old.insert(v); };
+			});
 			for_each(two_char_name.begin(), two_char_name.end(), [&](auto & kv) {
+				set<string> & old = three_char_name[kv.first];
+				for (auto & v : kv.second) { old.insert(v); };
+			});
+			for_each(hanzi.begin(), hanzi.end(), [&](auto & kv) {
 				set<string> & old = three_char_name[kv.first];
 				for (auto & v : kv.second) { old.insert(v); };
 			});

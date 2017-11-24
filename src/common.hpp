@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <algorithm>
 //#include <queue>
 
 namespace cnbp {
@@ -14,6 +15,15 @@ namespace cnbp {
 		Asc,
 		Desc,
 		Tria,
+	};
+
+	enum PriLevel {
+		F = 1000,
+		G = 500,
+		H = 100,
+		I = 10,
+		J = 5,
+		N = 1
 	};
 
 	typedef std::map<int, std::set<std::string>> priseed;

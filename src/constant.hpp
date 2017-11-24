@@ -1,6 +1,7 @@
 #pragma once
 #include "common.hpp"
 #include <algorithm>
+#include <fstream>
 #include <iterator>
 
 namespace cnbp {
@@ -10,16 +11,41 @@ namespace cnbp {
 	class Constant {
 	public:
 		Constant() {
+
+		}
+
+		void init() {
 			charPriInit();
+			seedInit();
 		}
 
 		const priseed & getChar() const { return cPri; };
 		const priseed & getSpChar() const { return spcPri; };
+		const priseed & getSid() const { return sidLocPrefix; };
+		const priseed & getHanzi() const { return commonHanzi; };
+		const priseed & getPhone() const { return phonePrefix; };
+
+
 
 
 	private:
 		priseed cPri;
 		priseed spcPri;
+		priseed sidLocPrefix;
+		priseed commonHanzi;
+		priseed phonePrefix;
+
+
+		void seedInit() {
+			string sidLocPrefix_path = "../seed/sid_first_six.txt";
+			string commonHanzi_path = "../seed/common_hanzi.txt";
+			string phonePrefix_path = "../seed/solid_phone_area.txt";
+			loadSeed(sidLocPrefix_path, sidLocPrefix, PriLevel::F);
+			loadSeed(commonHanzi_path, commonHanzi, PriLevel::F);
+			loadSeed(phonePrefix_path, phonePrefix, PriLevel::H);
+
+			///in.open()
+		}
 
 		void charPriInit() {
 			set<string> nonPri;
@@ -40,6 +66,15 @@ namespace cnbp {
 		void spcInit() {
 			spcPri[3] = {"@", "."};
 			spcPri[2] = {"_", "-"};
+		}
+
+		void loadSeed(string& path, priseed& dest, PriLevel level) {
+			ifstream in(path);
+			string buf;
+			while (getline(in, buf)) {
+				dest[level].insert(buf);
+			}
+			in.close();
 		}
 
 	};
